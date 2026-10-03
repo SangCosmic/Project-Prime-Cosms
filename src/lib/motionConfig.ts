@@ -94,25 +94,25 @@ export const MOTION = {
   transitions: {
     // Hero exit as Trading enters
     heroExit: {
-      opacity: [1, 0.4] as [number, number],
+      opacity: [1, 0.7] as [number, number],
       scale: [1, 0.98] as [number, number],
       y: ['0%', '-5%'] as [string, string],
     },
     // Trading entrance
     tradingEnter: {
-      opacity: [0, 1] as [number, number],
+      opacity: [0.2, 1] as [number, number],
       scale: [1.02, 1] as [number, number],
       y: ['3%', '0%'] as [string, string],
     },
     // Trading exit as NFT enters
     tradingExit: {
-      opacity: [1, 0.4] as [number, number],
+      opacity: [1, 0.7] as [number, number],
       scale: [1, 0.98] as [number, number],
       y: ['0%', '-5%'] as [string, string],
     },
     // NFT entrance
     nftEnter: {
-      opacity: [0, 1] as [number, number],
+      opacity: [0.2, 1] as [number, number],
       scale: [1.02, 1] as [number, number],
       y: ['3%', '0%'] as [string, string],
     },
