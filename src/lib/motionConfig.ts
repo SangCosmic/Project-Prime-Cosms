@@ -70,8 +70,8 @@ export const MOTION = {
     card: {
       y: -8,
       scale: 1.02,
-      rotateY: 3,
-      rotateX: -2,
+      rotateY: 1.5,
+      rotateX: -1,
       duration: 0.3,
     },
     cta: {
@@ -85,6 +85,37 @@ export const MOTION = {
   viewport: {
     once: true,
     amount: 0.3,
+  },
+
+  /**
+   * Scene transition configuration
+   * Controls depth separation and crossfade between sections
+   */
+  transitions: {
+    // Hero exit as Trading enters
+    heroExit: {
+      opacity: [1, 0.4] as [number, number],
+      scale: [1, 0.98] as [number, number],
+      y: ['0%', '-5%'] as [string, string],
+    },
+    // Trading entrance
+    tradingEnter: {
+      opacity: [0, 1] as [number, number],
+      scale: [1.02, 1] as [number, number],
+      y: ['3%', '0%'] as [string, string],
+    },
+    // Trading exit as NFT enters
+    tradingExit: {
+      opacity: [1, 0.4] as [number, number],
+      scale: [1, 0.98] as [number, number],
+      y: ['0%', '-5%'] as [string, string],
+    },
+    // NFT entrance
+    nftEnter: {
+      opacity: [0, 1] as [number, number],
+      scale: [1.02, 1] as [number, number],
+      y: ['3%', '0%'] as [string, string],
+    },
   },
 } as const;
 

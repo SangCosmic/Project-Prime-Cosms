@@ -74,8 +74,26 @@ export default function CosmicNFT() {
     enableParallax ? MOTION.parallax.nft.scale : [1, 1, 1]
   );
 
+  // NFT entrance transition: fade in and scale as section enters
+  const enableTransitions = !shouldReduceMotion && !isMobile;
+  const sectionOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.3],
+    enableTransitions ? MOTION.transitions.nftEnter.opacity : [1, 1]
+  );
+  const sectionScale = useTransform(
+    scrollYProgress,
+    [0, 0.3],
+    enableTransitions ? MOTION.transitions.nftEnter.scale : [1, 1]
+  );
+  const sectionY = useTransform(
+    scrollYProgress,
+    [0, 0.3],
+    enableTransitions ? MOTION.transitions.nftEnter.y : ['0%', '0%']
+  );
+
   return (
-    <section
+    <motion.section
       id="nft"
       ref={sectionRef}
       aria-label="Evolutionary NFTs and Play to Earn Gaming"
@@ -84,7 +102,12 @@ export default function CosmicNFT() {
       {/* ── Background artwork with subtle parallax ── */}
       <motion.div
         className="absolute inset-0 z-0 h-[110%] -top-[5%] w-full"
-        style={{ y: bgY, scale: bgScale }}
+        style={{
+          y: bgY,
+          scale: bgScale,
+          opacity: sectionOpacity,
+          translateY: sectionY,
+        }}
       >
         <Image
           src={COSMIC_ASSETS.environment.nftBg}
@@ -218,6 +241,6 @@ export default function CosmicNFT() {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

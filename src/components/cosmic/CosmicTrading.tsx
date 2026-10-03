@@ -52,17 +52,53 @@ export default function CosmicTrading() {
     enableParallax ? MOTION.parallax.trading.scale : [1, 1, 1]
   );
 
+  // Trading entrance transition: fade in and scale as section enters
+  const enableTransitions = !shouldReduceMotion && !isMobile;
+  const sectionOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.3],
+    enableTransitions ? MOTION.transitions.tradingEnter.opacity : [1, 1]
+  );
+  const sectionScale = useTransform(
+    scrollYProgress,
+    [0, 0.3],
+    enableTransitions ? MOTION.transitions.tradingEnter.scale : [1, 1]
+  );
+  const sectionY = useTransform(
+    scrollYProgress,
+    [0, 0.3],
+    enableTransitions ? MOTION.transitions.tradingEnter.y : ['0%', '0%']
+  );
+
+  // Trading exit transition for next section
+  const exitOpacity = useTransform(
+    scrollYProgress,
+    [0.7, 1],
+    enableTransitions ? MOTION.transitions.tradingExit.opacity : [1, 1]
+  );
+  const exitScale = useTransform(
+    scrollYProgress,
+    [0.7, 1],
+    enableTransitions ? MOTION.transitions.tradingExit.scale : [1, 1]
+  );
+
   return (
-    <section
+    <motion.section
       id="ecosystem"
       ref={sectionRef}
       aria-label="Extraordinary Trading Strategies"
       className="relative min-h-screen w-full flex items-center overflow-hidden bg-[#04050f]"
+      style={{ opacity: exitOpacity }}
     >
       {/* ── Background artwork with subtle parallax ── */}
       <motion.div
         className="absolute inset-0 z-0 h-[110%] -top-[5%] w-full"
-        style={{ y: bgY, scale: bgScale }}
+        style={{
+          y: bgY,
+          scale: bgScale,
+          opacity: sectionOpacity,
+          translateY: sectionY,
+        }}
       >
         <Image
           src={COSMIC_ASSETS.environment.tradingBg}
@@ -177,6 +213,6 @@ export default function CosmicTrading() {
           </motion.div>
         </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

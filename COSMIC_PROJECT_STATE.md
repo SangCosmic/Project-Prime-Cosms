@@ -1,8 +1,8 @@
 # COSMIC Project State
 
-**Last Updated:** 2026-10-03 08:38 UTC  
+**Last Updated:** 2026-10-03 08:58 UTC  
 **Branch:** main  
-**Status:** Motion system implemented ✅
+**Status:** Cinematic transitions implemented ✅
 
 ---
 
@@ -115,83 +115,88 @@ All Phase 1 background + character assets complete:
 
 ## Current Task
 
-**COSMIC Motion System** ✅ COMPLETED
+**Cinematic Scene Transitions** ✅ COMPLETED
 
 ### What Was Implemented
 
-**Motion Architecture:**
-- Centralized motion configuration system
-- Section-local scroll parallax
-- Coordinated timing and easing
-- Mobile performance optimizations
-- Reduced-motion accessibility compliance
+**Scene Transition Architecture:**
+- Hero → Trading crossfade with depth separation
+- Trading → NFT crossfade with depth separation
+- Section-local scroll progress for each transition
+- Opacity, scale, and Y-offset coordination
+- Mobile and reduced-motion support
 
-**Files Created:**
-1. `src/lib/motionConfig.ts` (85 lines)
-   - Centralized easing curves, durations, stagger values
-   - Parallax ranges by section (Hero 0-1%, Trading ±4%, NFT ±4.8%)
-   - Reveal distances, hover transformations
-   - Viewport intersection thresholds
-   - Mobile detection utility
+**Files Modified (4):**
 
-**Files Modified:**
-1. `src/components/cosmic/CosmicHero.tsx`
-   - Imported motion config
-   - Added continuous drift animation via `useTime()` (0→1% over 60s cycle)
-   - Respects reduced motion preference
+1. **src/lib/motionConfig.ts** (+35 lines)
+   - Added `transitions` configuration object
+   - Hero exit: opacity 1→0.4, scale 1→0.98, y 0%→-5%
+   - Trading enter: opacity 0→1, scale 1.02→1, y 3%→0%
+   - Trading exit: opacity 1→0.4, scale 1→0.98, y 0%→-5%
+   - NFT enter: opacity 0→1, scale 1.02→1, y 3%→0%
+   - Reduced card hover rotation: 3deg→1.5deg, 2deg→1deg
 
-2. `src/components/cosmic/HeroContent.tsx`
-   - Replaced hardcoded values with MOTION constants
-   - Added blur(4px) → blur(0) reveal on desktop
-   - Mobile-specific variants skip blur for performance
-   - All timings centralized
+2. **src/components/cosmic/CosmicHero.tsx** (+37 lines)
+   - Added section ref for local scroll tracking
+   - Exit transition: fades out and pulls back as Trading enters
+   - Uses offset `['start start', 'end start']` for Hero→Trading boundary
+   - Applies opacity, scale, and translateY transforms
+   - Wrapped in `<motion.section>` for section-level animation
 
-3. `src/components/cosmic/CosmicTrading.tsx`
-   - Imported motion config
-   - Added mobile parallax check
-   - Parallax depth: 1.0x baseline (±4%)
-   - Viewport thresholds from config
+3. **src/components/cosmic/CosmicTrading.tsx** (+42 lines)
+   - Entrance transition: fades in and scales from 1.02 as section enters
+   - Exit transition: fades out as NFT enters
+   - Uses offset `['start end', 'end start']` for full section range
+   - Entrance: scrollYProgress 0→0.3
+   - Exit: scrollYProgress 0.7→1
+   - Wrapped in `<motion.section>` with exit opacity
 
-4. `src/components/cosmic/CosmicNFT.tsx`
-   - Imported motion config
-   - Added mobile parallax check
-   - Parallax depth: 1.2x for depth variety (±4.8%)
-   - Viewport thresholds from config
+4. **src/components/cosmic/CosmicNFT.tsx** (+29 lines)
+   - Entrance transition: fades in and scales from 1.02
+   - Uses offset `['start end', 'end start']`
+   - Entrance: scrollYProgress 0→0.3
+   - Wrapped in `<motion.section>` for consistency
 
-5. `src/components/cosmic/NFTCard.tsx`
-   - Imported motion config
-   - Added 3D hover rotation (rotateY: 3deg, rotateX: -2deg)
-   - Disabled 3D on mobile for performance
-   - Stagger from centralized config
+**Transition Strategy:**
+- **Depth Separation:** Outgoing scene scales down (0.98) + moves up (-5%)
+- **Incoming Scene:** Starts with slight scale (1.02) + lower position (3%)
+- **Crossfade:** Opacity transitions overlap for smooth blending
+- **Layering:** Each scene conceptually treated as background + atmosphere + content
+- **Normal Scrolling:** Browser scroll behavior unchanged, no hijacking
+- **Performance:** Transforms only (opacity, scale, translateY)
 
-6. `src/components/cosmic/CosmicNavbar.tsx`
-   - Added entrance animation (y: -20 → 0, opacity: 0 → 1)
-   - 0.5s delay after page load
-   - Respects reduced motion
-
-**Motion Features:**
-- **Hero:** 8s initial zoom + continuous 60s drift cycle
-- **Sections:** Coordinated parallax at different depths for cinematic layering
-- **Text:** Blur reveals on desktop, skip on mobile
-- **Cards:** 3D tilt hover on desktop, simple lift on mobile
-- **Navbar:** Elegant entrance animation
-- **Accessibility:** Full reduced-motion support
-- **Performance:** Mobile checks disable expensive transforms
+**Cinematic Effect:**
+- Hero feels like it's "pulling back" into depth as Trading emerges
+- Trading scales into view with atmospheric presence
+- NFT section mirrors the Trading entrance pattern
+- Avoids abrupt scene replacement feel
+- Maintains artwork composition integrity
 
 ---
 
 ## Next Task
 
-**Git Commit & Documentation**
+**Git Commit & Testing**
 
-Commit motion system implementation:
+Commit transition refinements:
 ```bash
 git add .
-git commit -m "feat: implement centralized cosmic motion system"
+git commit -m "feat: add cinematic scene transitions
+
+- Add Hero exit transition (fade + scale + y-offset)
+- Add Trading entrance/exit transitions
+- Add NFT entrance transition  
+- Coordinate depth separation between scenes
+- Reduce card hover rotation (3deg→1.5deg)
+- Maintain normal browser scrolling
+- Preserve reduced-motion support"
 git push origin main
 ```
 
-**Then:** Roadmap section or mobile responsive refinements.
+**Then:** 
+- User testing of transition feel
+- Mobile transition distance refinement
+- Consider Roadmap section
 
 ---
 

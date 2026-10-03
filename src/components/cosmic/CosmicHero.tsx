@@ -1,14 +1,23 @@
 'use client';
 
+import { useRef } from 'react';
 import Image from 'next/image';
-import { motion, useReducedMotion, useTime, useTransform } from 'framer-motion';
+import { motion, useReducedMotion, useTime, useTransform, useScroll } from 'framer-motion';
 import { COSMIC_ASSETS } from '@/lib/assetManifest';
 import { MOTION } from '@/lib/motionConfig';
 import HeroContent from './HeroContent';
 
 export default function CosmicHero() {
   const shouldReduceMotion = useReducedMotion();
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const time = useTime();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Section-local scroll for exit transition
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
 
   // Initial zoom animation (1.06 → 1.0 over 8s)
   const initialScale = shouldReduceMotion ? 1 : 1.06;
@@ -20,10 +29,30 @@ export default function CosmicHero() {
     shouldReduceMotion ? MOTION.parallax.hero.y : ['0%', '1%']
   );
 
+  // Hero exit transition: fade out and pull back as user scrolls down
+  const enableTransitions = !shouldReduceMotion && !isMobile;
+  const heroOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.5],
+    enableTransitions ? MOTION.transitions.heroExit.opacity : [1, 1]
+  );
+  const heroScale = useTransform(
+    scrollYProgress,
+    [0, 0.5],
+    enableTransitions ? MOTION.transitions.heroExit.scale : [1, 1]
+  );
+  const heroY = useTransform(
+    scrollYProgress,
+    [0, 0.5],
+    enableTransitions ? MOTION.transitions.heroExit.y : ['0%', '0%']
+  );
+
   return (
-    <section
+    <motion.section
+      ref={sectionRef}
       aria-label="Hero"
       className="relative min-h-screen w-full flex flex-col overflow-hidden bg-[#04050f]"
+      style={{ opacity: heroOpacity }}
     >
       {/* ── Background artwork ── */}
       <motion.div
@@ -31,7 +60,7 @@ export default function CosmicHero() {
         initial={{ scale: initialScale }}
         animate={{ scale: 1 }}
         transition={{ duration: MOTION.duration.cinematic, ease: MOTION.easing.out }}
-        style={{ y: drift }}
+        style={{ y: drift, scale: heroScale, translateY: heroY }}
       >
         <Image
           src={COSMIC_ASSETS.environment.heroBg}
@@ -96,6 +125,6 @@ export default function CosmicHero() {
       <div className="relative z-20 flex flex-1 min-h-screen flex-col items-center justify-center pt-24 pb-16">
         <HeroContent />
       </div>
-    </section>
+    </motion.section>
   );
 }
