@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useReducedMotion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { MOTION } from '@/lib/motionConfig';
 
 const navLinks = [
@@ -15,15 +15,45 @@ const navLinks = [
 
 export default function CosmicNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    const heroThreshold = typeof window !== 'undefined' ? window.innerHeight * 0.5 : 400;
+
+    // Show backdrop after scrolling past hero
+    setScrolled(latest > heroThreshold);
+
+    // Hide navbar when scrolling down, show when scrolling up
+    if (latest > previous && latest > heroThreshold) {
+      // Scrolling down past hero - hide navbar
+      setHidden(true);
+    } else if (latest < previous) {
+      // Scrolling up - show navbar
+      setHidden(false);
+    }
+
+    // Always show at very top
+    if (latest < 50) {
+      setHidden(false);
+    }
+  });
 
   return (
     <motion.nav
       initial={shouldReduceMotion ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: MOTION.duration.normal, delay: 0.5, ease: MOTION.easing.out }}
+      animate={{
+        y: hidden && !shouldReduceMotion ? -100 : 0,
+        opacity: hidden && !shouldReduceMotion ? 0 : 1,
+      }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
       aria-label="Main navigation"
-      className="fixed top-0 left-0 right-0 z-50 px-6 py-5 md:px-10 lg:px-16"
+      className={`fixed top-0 left-0 right-0 z-50 px-6 py-5 md:px-10 lg:px-16 transition-colors duration-300 ${
+        scrolled ? 'bg-[#04050f]/95 backdrop-blur-md border-b border-white/5' : 'bg-transparent'
+      }`}
     >
       <div className="flex items-center justify-between max-w-screen-xl mx-auto relative">
         {/* Brand */}

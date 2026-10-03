@@ -92,7 +92,7 @@ export default function CosmicAbout() {
       />
 
       {/* ── Content container ── */}
-      <div className="relative z-20 w-full px-6 py-32 md:py-40 lg:py-48 md:px-10 lg:px-16">
+      <div className="relative z-20 w-full px-6 py-32 pb-24 md:py-40 md:pb-28 lg:py-48 lg:pb-32 md:px-10 lg:px-16">
         <motion.div
           initial="hidden"
           whileInView="visible"
