@@ -2,6 +2,7 @@ import CosmicNavbar from '@/components/cosmic/CosmicNavbar';
 import CosmicHero from '@/components/cosmic/CosmicHero';
 import CosmicTrading from '@/components/cosmic/CosmicTrading';
 import CosmicNFT from '@/components/cosmic/CosmicNFT';
+import CosmicRoadmap from '@/components/cosmic/CosmicRoadmap';
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
         <CosmicHero />
         <CosmicTrading />
         <CosmicNFT />
+        <CosmicRoadmap />
       </main>
     </>
   );

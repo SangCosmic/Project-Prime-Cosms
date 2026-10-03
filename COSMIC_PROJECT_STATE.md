@@ -1,8 +1,8 @@
 # COSMIC Project State
 
-**Last Updated:** 2026-10-03 08:58 UTC  
+**Last Updated:** 2026-10-03 09:37 UTC  
 **Branch:** main  
-**Status:** Cinematic transitions implemented ✅
+**Status:** Roadmap section complete ✅
 
 ---
 
@@ -115,88 +115,98 @@ All Phase 1 background + character assets complete:
 
 ## Current Task
 
-**Cinematic Scene Transitions** ✅ COMPLETED
+**Roadmap Section** ✅ COMPLETED
 
 ### What Was Implemented
 
-**Scene Transition Architecture:**
-- Hero → Trading crossfade with depth separation
-- Trading → NFT crossfade with depth separation
-- Section-local scroll progress for each transition
-- Opacity, scale, and Y-offset coordination
-- Mobile and reduced-motion support
+**Visual Design:**
+- Dark navy/indigo/violet atmosphere with radial gradients
+- Vertical timeline with alternating left/right layout (desktop)
+- Mobile-first linear timeline (left-aligned)
+- Crimson/orange accent dots and period labels
+- Indigo phase badges
+- Atmospheric top/bottom blends for seamless section transitions
 
-**Files Modified (4):**
+**Content Structure:**
+- 4 phases: Foundation, Ecosystem Expansion, Game Development, Full Launch
+- Q1 2027 → Q1 2028 timeline
+- Phase cards with title, period, and milestone items
+- Editorial typography (Cinzel + Inter)
 
-1. **src/lib/motionConfig.ts** (+35 lines)
-   - Added `transitions` configuration object
-   - Hero exit: opacity 1→0.4, scale 1→0.98, y 0%→-5%
-   - Trading enter: opacity 0→1, scale 1.02→1, y 3%→0%
-   - Trading exit: opacity 1→0.4, scale 1→0.98, y 0%→-5%
-   - NFT enter: opacity 0→1, scale 1.02→1, y 3%→0%
-   - Reduced card hover rotation: 3deg→1.5deg, 2deg→1deg
+**Motion:**
+- Subtle background parallax (±1%)
+- Viewport-triggered text reveals with stagger
+- Respects reduced-motion preference
+- No scroll hijacking
 
-2. **src/components/cosmic/CosmicHero.tsx** (+37 lines)
-   - Added section ref for local scroll tracking
-   - Exit transition: fades out and pulls back as Trading enters
-   - Uses offset `['start start', 'end start']` for Hero→Trading boundary
-   - Applies opacity, scale, and translateY transforms
-   - Wrapped in `<motion.section>` for section-level animation
+**Files Created (1):**
+1. **src/components/cosmic/CosmicRoadmap.tsx** (268 lines)
+   - Section-local scroll parallax
+   - 4 roadmap phases with timeline structure
+   - Alternating desktop layout (even/odd phases)
+   - Mobile linear layout
+   - Viewport reveal animations
+   - Gradient atmosphere background
 
-3. **src/components/cosmic/CosmicTrading.tsx** (+42 lines)
-   - Entrance transition: fades in and scales from 1.02 as section enters
-   - Exit transition: fades out as NFT enters
-   - Uses offset `['start end', 'end start']` for full section range
-   - Entrance: scrollYProgress 0→0.3
-   - Exit: scrollYProgress 0.7→1
-   - Wrapped in `<motion.section>` with exit opacity
+**Files Modified (2):**
+1. **src/app/page.tsx** (+2 lines)
+   - Import CosmicRoadmap
+   - Add to main after NFT section
 
-4. **src/components/cosmic/CosmicNFT.tsx** (+29 lines)
-   - Entrance transition: fades in and scales from 1.02
-   - Uses offset `['start end', 'end start']`
-   - Entrance: scrollYProgress 0→0.3
-   - Wrapped in `<motion.section>` for consistency
+2. **COSMIC_PROJECT_STATE.md** (updated)
 
-**Transition Strategy:**
-- **Depth Separation:** Outgoing scene scales down (0.98) + moves up (-5%)
-- **Incoming Scene:** Starts with slight scale (1.02) + lower position (3%)
-- **Crossfade:** Opacity transitions overlap for smooth blending
-- **Layering:** Each scene conceptually treated as background + atmosphere + content
-- **Normal Scrolling:** Browser scroll behavior unchanged, no hijacking
-- **Performance:** Transforms only (opacity, scale, translateY)
+**Navbar Integration:**
+- Roadmap anchor (`#roadmap`) already present in navbar
+- Functional scroll-to-section behavior
 
-**Cinematic Effect:**
-- Hero feels like it's "pulling back" into depth as Trading emerges
-- Trading scales into view with atmospheric presence
-- NFT section mirrors the Trading entrance pattern
-- Avoids abrupt scene replacement feel
-- Maintains artwork composition integrity
+---
+
+## Completed Sections
+
+1. **Hero** ✅
+   - Cinematic entrance zoom
+   - Subtle scroll parallax
+   - Opacity exit transition
+   - Editorial typography overlay
+
+2. **Trading** ✅
+   - Background parallax
+   - Opacity crossfade (entrance/exit)
+   - Text reveals
+   - Artwork composition
+
+3. **NFT** ✅
+   - Character card grid
+   - 3D hover effects (desktop)
+   - Background parallax
+   - Opacity entrance fade
+
+4. **Roadmap** ✅
+   - Timeline structure
+   - Phase cards
+   - Alternating layout
+   - Viewport reveals
 
 ---
 
 ## Next Task
 
-**Git Commit & Testing**
+**Git Commit & About Section**
 
-Commit transition refinements:
+Commit Roadmap implementation:
 ```bash
 git add .
-git commit -m "feat: add cinematic scene transitions
+git commit -m "feat: add roadmap section with timeline
 
-- Add Hero exit transition (fade + scale + y-offset)
-- Add Trading entrance/exit transitions
-- Add NFT entrance transition  
-- Coordinate depth separation between scenes
-- Reduce card hover rotation (3deg→1.5deg)
-- Maintain normal browser scrolling
-- Preserve reduced-motion support"
+- Create CosmicRoadmap component with 4 phases
+- Vertical timeline with alternating desktop layout
+- Mobile linear timeline
+- Subtle parallax and viewport reveals
+- Integrate with main page and navbar anchor"
 git push origin main
 ```
 
-**Then:** 
-- User testing of transition feel
-- Mobile transition distance refinement
-- Consider Roadmap section
+**Then:** About/Footer section or polish pass
 
 ---
 
