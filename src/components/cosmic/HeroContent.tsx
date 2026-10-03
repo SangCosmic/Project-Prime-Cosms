@@ -2,55 +2,85 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-
-// Cubic bezier tuple — must be [number,number,number,number] for TS strict mode
-const easeOut: [number, number, number, number] = [0.22, 1, 0.36, 1];
+import { MOTION } from '@/lib/motionConfig';
 
 const eyebrowVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: MOTION.reveal.small, filter: 'blur(4px)' },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 1.1, ease: easeOut },
+    filter: 'blur(0px)',
+    transition: { duration: 1.1, ease: MOTION.easing.out },
   },
 };
 
 const headlineVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: MOTION.reveal.medium, filter: 'blur(4px)' },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 1.3, ease: easeOut, delay: 0.3 },
+    filter: 'blur(0px)',
+    transition: { duration: 1.3, ease: MOTION.easing.out, delay: 0.3 },
   },
 };
 
 const bodyVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: MOTION.reveal.medium, filter: 'blur(4px)' },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 1.1, ease: easeOut, delay: 0.7 },
+    filter: 'blur(0px)',
+    transition: { duration: 1.1, ease: MOTION.easing.out, delay: 0.7 },
   },
 };
 
 const ctaVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: MOTION.reveal.small },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.9, ease: easeOut, delay: 1.0 },
+    transition: { duration: 0.9, ease: MOTION.easing.out, delay: 1.0 },
   },
 };
 
 export default function HeroContent() {
   const shouldReduceMotion = useReducedMotion();
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const initial = shouldReduceMotion ? 'visible' : 'hidden';
+
+  // Skip blur on mobile for performance
+  const eyebrowVariantsMobile: Variants = {
+    hidden: { opacity: 0, y: MOTION.reveal.small },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1.1, ease: MOTION.easing.out },
+    },
+  };
+
+  const headlineVariantsMobile: Variants = {
+    hidden: { opacity: 0, y: MOTION.reveal.medium },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1.3, ease: MOTION.easing.out, delay: 0.3 },
+    },
+  };
+
+  const bodyVariantsMobile: Variants = {
+    hidden: { opacity: 0, y: MOTION.reveal.medium },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1.1, ease: MOTION.easing.out, delay: 0.7 },
+    },
+  };
 
   return (
     <div className="relative z-20 flex flex-col items-center text-center px-4 sm:px-6 max-w-[920px] w-full mx-auto">
       {/* Eyebrow */}
       <motion.p
-        variants={eyebrowVariants}
+        variants={isMobile ? eyebrowVariantsMobile : eyebrowVariants}
         initial={initial}
         animate="visible"
         className="text-[0.65rem] sm:text-xs tracking-[0.35em] text-white/50 uppercase mb-4 sm:mb-6 font-light"
@@ -61,7 +91,7 @@ export default function HeroContent() {
 
       {/* Main headline: strictly 2 lines, no orphan 'A' */}
       <motion.h1
-        variants={headlineVariants}
+        variants={isMobile ? headlineVariantsMobile : headlineVariants}
         initial={initial}
         animate="visible"
         className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[76px] xl:text-[88px] 2xl:text-[96px] uppercase leading-[0.95] tracking-[-0.025em] text-white mb-6 sm:mb-8 select-none"
@@ -75,7 +105,7 @@ export default function HeroContent() {
 
       {/* Supporting copy */}
       <motion.p
-        variants={bodyVariants}
+        variants={isMobile ? bodyVariantsMobile : bodyVariants}
         initial={initial}
         animate="visible"
         className="text-xs sm:text-sm md:text-base text-white/55 max-w-sm sm:max-w-md lg:max-w-lg leading-relaxed mb-8 sm:mb-10 font-light"

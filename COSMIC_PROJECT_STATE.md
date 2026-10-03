@@ -1,8 +1,8 @@
 # COSMIC Project State
 
-**Last Updated:** 2026-10-03 08:02 UTC  
+**Last Updated:** 2026-10-03 08:38 UTC  
 **Branch:** main  
-**Status:** NFT section implemented ✅
+**Status:** Motion system implemented ✅
 
 ---
 
@@ -13,6 +13,7 @@
 - ✅ TypeScript configuration
 - ✅ Font system: Cinzel (serif headlines) + Inter (sans-serif body/UI)
 - ✅ Asset manifest pattern (`src/lib/assetManifest.ts`)
+- ✅ **Motion system** (`src/lib/motionConfig.ts`) ✅ NEW
 - ✅ Git repository connected to origin/main
 - ✅ COSMIC branding metadata
 
@@ -76,7 +77,7 @@ All Phase 1 background + character assets complete:
 
 ## Current Project State
 
-**Working Tree:** Modified (NFT implementation uncommitted)  
+**Working Tree:** Modified (Motion system uncommitted)  
 **Last Commit:** `fcf1d1e feat: add cosmic trading section`  
 **Dev Server:** Running on localhost:3000  
 **TypeScript:** No errors ✅  
@@ -114,54 +115,83 @@ All Phase 1 background + character assets complete:
 
 ## Current Task
 
-**NFT Section Implementation** ✅ COMPLETED
+**COSMIC Motion System** ✅ COMPLETED
 
 ### What Was Implemented
 
-**Files Created:**
-1. `src/components/cosmic/CosmicNFT.tsx` (232 lines)
-   - Section component with parallax background
-   - Left text column with headline and CTA
-   - Right card grid (responsive)
-   - Deep blue + violet/magenta color palette
-   - Atmospheric gradient overlays
+**Motion Architecture:**
+- Centralized motion configuration system
+- Section-local scroll parallax
+- Coordinated timing and easing
+- Mobile performance optimizations
+- Reduced-motion accessibility compliance
 
-2. `src/components/cosmic/NFTCard.tsx` (117 lines)
-   - Reusable card component
-   - Props: name, characterClass, rarity, imageSrc, index
-   - Gradient background with glassmorphism
-   - Character image with drop shadow
-   - Bottom info panel with rarity badge
-   - Hover effects: lift + scale animation
-   - Staggered entrance with custom delay
+**Files Created:**
+1. `src/lib/motionConfig.ts` (85 lines)
+   - Centralized easing curves, durations, stagger values
+   - Parallax ranges by section (Hero 0-1%, Trading ±4%, NFT ±4.8%)
+   - Reveal distances, hover transformations
+   - Viewport intersection thresholds
+   - Mobile detection utility
 
 **Files Modified:**
-- `src/app/page.tsx` — Added CosmicNFT import and render (+2 lines)
+1. `src/components/cosmic/CosmicHero.tsx`
+   - Imported motion config
+   - Added continuous drift animation via `useTime()` (0→1% over 60s cycle)
+   - Respects reduced motion preference
 
-**Implementation Notes:**
-- Used existing character assets (no new images generated)
-- Cards are HTML/CSS components, not static PNGs
-- Data-driven configuration with `nftCards` array
-- Follows same architectural pattern as Trading section
-- Full responsive support (3-col → 2-col → 1-col)
+2. `src/components/cosmic/HeroContent.tsx`
+   - Replaced hardcoded values with MOTION constants
+   - Added blur(4px) → blur(0) reveal on desktop
+   - Mobile-specific variants skip blur for performance
+   - All timings centralized
+
+3. `src/components/cosmic/CosmicTrading.tsx`
+   - Imported motion config
+   - Added mobile parallax check
+   - Parallax depth: 1.0x baseline (±4%)
+   - Viewport thresholds from config
+
+4. `src/components/cosmic/CosmicNFT.tsx`
+   - Imported motion config
+   - Added mobile parallax check
+   - Parallax depth: 1.2x for depth variety (±4.8%)
+   - Viewport thresholds from config
+
+5. `src/components/cosmic/NFTCard.tsx`
+   - Imported motion config
+   - Added 3D hover rotation (rotateY: 3deg, rotateX: -2deg)
+   - Disabled 3D on mobile for performance
+   - Stagger from centralized config
+
+6. `src/components/cosmic/CosmicNavbar.tsx`
+   - Added entrance animation (y: -20 → 0, opacity: 0 → 1)
+   - 0.5s delay after page load
+   - Respects reduced motion
+
+**Motion Features:**
+- **Hero:** 8s initial zoom + continuous 60s drift cycle
+- **Sections:** Coordinated parallax at different depths for cinematic layering
+- **Text:** Blur reveals on desktop, skip on mobile
+- **Cards:** 3D tilt hover on desktop, simple lift on mobile
+- **Navbar:** Elegant entrance animation
+- **Accessibility:** Full reduced-motion support
+- **Performance:** Mobile checks disable expensive transforms
 
 ---
 
 ## Next Task
 
-**Navbar Link Updates**
+**Git Commit & Documentation**
 
-Current navbar has placeholder links. Update to match implemented sections:
-- ✅ Home → `#` (works)
-- World → Not implemented yet (keep as placeholder `#world`)
-- ✅ Ecosystem → `#ecosystem` (links to Trading section)
-- Roadmap → Not implemented yet (keep as placeholder `#roadmap`)
-- About → Not implemented yet (keep as placeholder `#about`)
+Commit motion system implementation:
+```bash
+git add .
+git commit -m "feat: implement centralized cosmic motion system"
+git push origin main
+```
 
-**Add:**
-- NFT/Collection link → `#nft`
-
-**Then:** Commit NFT implementation work.
+**Then:** Roadmap section or mobile responsive refinements.
 
 ---
 
@@ -199,10 +229,10 @@ const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.02, 1.0, 1.03]);
 ```
 
 ### Animation Timing
-- Ease-out curve: `[0.22, 1, 0.36, 1]`
-- Stagger delays: 0.15s between items
-- Duration: 0.8-1.3s for entrance animations
-- Scroll parallax: subtle (-4% to +4% range)
+- Easing curve: `[0.22, 1, 0.36, 1]` (centralized)
+- Stagger delays: 0.12s (cards), 0.15s (text)
+- Duration: 0.3s (fast), 0.8s (normal), 1.3s (slow), 8.0s (cinematic)
+- Scroll parallax depths: Hero 0.5x, Trading 1.0x, NFT 1.2x
 
 ### Responsive Strategy
 - Mobile-first Tailwind utilities
@@ -214,26 +244,28 @@ const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.02, 1.0, 1.03]);
 
 ## Blueprint Compliance
 
-### ✅ Completed (Phase 1-3)
+### ✅ Completed (Phase 1-4)
 - Hero composition matches reference
 - Trading section left-aligned asymmetric layout
-- NFT section with HTML/CSS card components ✅ NEW
+- NFT section with HTML/CSS card components
 - Cinzel + Inter font pairing
+- **Centralized motion system** ✅ NEW
+- **Navbar entrance animation** ✅ NEW
+- **Hero continuous drift** ✅ NEW
+- **Blur text reveals (desktop)** ✅ NEW
+- **3D card hover depth** ✅ NEW
+- **Coordinated parallax depths** ✅ NEW
 - Reduced motion support
+- Mobile performance optimizations
 - Edge-to-edge backgrounds with constrained text containers
 - Viewport-height sections on desktop
 - All Phase 1 assets generated and integrated
-- Parallax scroll effects on backgrounds
-- Staggered entrance animations
-- Card hover interactions
 
-### ⏳ Not Started (Phase 4-5)
+### ⏳ Not Started (Phase 5+)
 - Roadmap section
 - About/footer section
-- Video assets (Phase 4 in blueprint)
-- Mobile responsive fine-tuning (Phase 5)
-- Advanced parallax depth layers
-- Navbar link cleanup
+- Video assets (future phase)
+- Mobile responsive fine-tuning
 
 ---
 
@@ -294,21 +326,35 @@ git push origin main          # Push to remote
 
 ## Implementation Summary
 
-**NFT Section Completed:**
-1. ✅ Created NFTCard.tsx reusable component
-2. ✅ Created CosmicNFT.tsx section component
-3. ✅ Integrated into page.tsx
-4. ✅ TypeScript validated (no errors)
-5. ✅ Production build successful
-6. ✅ Runtime verified on localhost:3000
-7. ✅ Hero → Trading → NFT scroll flow working
-8. ✅ Card hover interactions functional
-9. ⏳ Git commit pending
+**Motion System Completed:**
+1. ✅ Created centralized motionConfig.ts
+2. ✅ Navbar entrance animation (0.5s delay)
+3. ✅ Hero continuous drift (60s cycle)
+4. ✅ Blur reveals on Hero text (desktop only)
+5. ✅ Coordinated section parallax depths
+6. ✅ 3D card hover with rotation
+7. ✅ Mobile performance checks
+8. ✅ Reduced-motion compliance
+9. ✅ TypeScript validated (no errors)
+10. ✅ Production build successful
+11. ✅ Runtime verified on localhost:3000
+12. ⏳ Git commit pending
+
+**Dependencies:** None added. Pure Framer Motion implementation.
 
 **Ready to commit:**
 ```bash
 git add .
-git commit -m "feat: add nft collection section with html/css cards"
+git commit -m "feat: implement centralized cosmic motion system
+
+- Add motion config with centralized timing/easing
+- Add navbar entrance animation
+- Add hero continuous drift (60s cycle)
+- Add desktop blur text reveals  
+- Add 3D card hover depth
+- Coordinate parallax depths (Hero 0.5x, Trading 1.0x, NFT 1.2x)
+- Add mobile performance checks
+- Maintain reduced-motion support"
 git push origin main
 ```
 

@@ -1,12 +1,24 @@
 'use client';
 
 import Image from 'next/image';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useTime, useTransform } from 'framer-motion';
 import { COSMIC_ASSETS } from '@/lib/assetManifest';
+import { MOTION } from '@/lib/motionConfig';
 import HeroContent from './HeroContent';
 
 export default function CosmicHero() {
   const shouldReduceMotion = useReducedMotion();
+  const time = useTime();
+
+  // Initial zoom animation (1.06 → 1.0 over 8s)
+  const initialScale = shouldReduceMotion ? 1 : 1.06;
+
+  // Continuous subtle drift after initial zoom (0 → 1% over 60s cycle)
+  const drift = useTransform(
+    time,
+    [0, 60000],
+    shouldReduceMotion ? MOTION.parallax.hero.y : ['0%', '1%']
+  );
 
   return (
     <section
@@ -16,9 +28,10 @@ export default function CosmicHero() {
       {/* ── Background artwork ── */}
       <motion.div
         className="absolute inset-0 z-0"
-        initial={shouldReduceMotion ? { scale: 1 } : { scale: 1.06 }}
+        initial={{ scale: initialScale }}
         animate={{ scale: 1 }}
-        transition={{ duration: 8, ease: 'easeOut' }}
+        transition={{ duration: MOTION.duration.cinematic, ease: MOTION.easing.out }}
+        style={{ y: drift }}
       >
         <Image
           src={COSMIC_ASSETS.environment.heroBg}

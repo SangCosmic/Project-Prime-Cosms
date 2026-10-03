@@ -5,29 +5,28 @@ import Image from 'next/image';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { COSMIC_ASSETS } from '@/lib/assetManifest';
+import { MOTION } from '@/lib/motionConfig';
 import NFTCard from './NFTCard';
 
-const easeOut: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
 const contentVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: MOTION.reveal.large },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 1.0,
-      ease: easeOut,
-      staggerChildren: 0.15,
+      duration: MOTION.duration.normal,
+      ease: MOTION.easing.out,
+      staggerChildren: MOTION.stagger.text,
     },
   },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: MOTION.reveal.medium },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: easeOut },
+    transition: { duration: MOTION.duration.normal, ease: MOTION.easing.out },
   },
 };
 
@@ -55,21 +54,24 @@ const nftCards = [
 export default function CosmicNFT() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
   });
 
+  // Parallax depth 1.2x (slightly faster for depth variety)
+  const enableParallax = !shouldReduceMotion && !isMobile;
   const bgY = useTransform(
     scrollYProgress,
     [0, 1],
-    shouldReduceMotion ? ['0%', '0%'] : ['-4%', '4%']
+    enableParallax ? MOTION.parallax.nft.y : ['0%', '0%']
   );
   const bgScale = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
-    shouldReduceMotion ? [1, 1, 1] : [1.02, 1.0, 1.03]
+    enableParallax ? MOTION.parallax.nft.scale : [1, 1, 1]
   );
 
   return (
@@ -144,7 +146,7 @@ export default function CosmicNFT() {
             variants={contentVariants}
             initial={shouldReduceMotion ? 'visible' : 'hidden'}
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: MOTION.viewport.once, amount: MOTION.viewport.amount }}
             className="lg:col-span-5 xl:col-span-6 flex flex-col items-start"
           >
             {/* Eyebrow */}

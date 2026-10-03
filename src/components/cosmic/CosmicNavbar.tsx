@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { MOTION } from '@/lib/motionConfig';
 
 const navLinks = [
   { label: 'Home', href: '#' },
@@ -14,9 +15,13 @@ const navLinks = [
 
 export default function CosmicNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   return (
-    <nav
+    <motion.nav
+      initial={shouldReduceMotion ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: MOTION.duration.normal, delay: 0.5, ease: MOTION.easing.out }}
       aria-label="Main navigation"
       className="fixed top-0 left-0 right-0 z-50 px-6 py-5 md:px-10 lg:px-16"
     >
@@ -95,7 +100,7 @@ export default function CosmicNavbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 }
 

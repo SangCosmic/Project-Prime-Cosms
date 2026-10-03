@@ -5,50 +5,51 @@ import Image from 'next/image';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { COSMIC_ASSETS } from '@/lib/assetManifest';
-
-const easeOut: [number, number, number, number] = [0.22, 1, 0.36, 1];
+import { MOTION } from '@/lib/motionConfig';
 
 const contentVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: MOTION.reveal.large },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 1.0,
-      ease: easeOut,
-      staggerChildren: 0.15,
+      duration: MOTION.duration.normal,
+      ease: MOTION.easing.out,
+      staggerChildren: MOTION.stagger.text,
     },
   },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: MOTION.reveal.medium },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: easeOut },
+    transition: { duration: MOTION.duration.normal, ease: MOTION.easing.out },
   },
 };
 
 export default function CosmicTrading() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
   });
 
-  // Slow subtle parallax on background artwork
+  // Parallax depth 1.0x (baseline)
+  const enableParallax = !shouldReduceMotion && !isMobile;
   const bgY = useTransform(
     scrollYProgress,
     [0, 1],
-    shouldReduceMotion ? ['0%', '0%'] : ['-4%', '4%']
+    enableParallax ? MOTION.parallax.trading.y : ['0%', '0%']
   );
   const bgScale = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
-    shouldReduceMotion ? [1, 1, 1] : [1.02, 1.0, 1.03]
+    enableParallax ? MOTION.parallax.trading.scale : [1, 1, 1]
   );
 
   return (
@@ -121,7 +122,7 @@ export default function CosmicTrading() {
           variants={contentVariants}
           initial={shouldReduceMotion ? 'visible' : 'hidden'}
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: MOTION.viewport.once, amount: MOTION.viewport.amount }}
           className="max-w-xl lg:max-w-2xl text-left flex flex-col items-start"
         >
           {/* Eyebrow */}

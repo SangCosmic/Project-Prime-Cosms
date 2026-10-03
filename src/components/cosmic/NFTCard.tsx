@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
+import { MOTION } from '@/lib/motionConfig';
 
 interface NFTCardProps {
   name: string;
@@ -11,18 +12,16 @@ interface NFTCardProps {
   index: number;
 }
 
-const easeOut: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
 const cardVariants = {
-  hidden: { opacity: 0, y: 24, scale: 0.95 },
+  hidden: { opacity: 0, y: MOTION.reveal.large, scale: 0.95 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.8,
-      ease: easeOut,
-      delay: i * 0.12,
+      duration: MOTION.duration.normal,
+      ease: MOTION.easing.out,
+      delay: i * MOTION.stagger.cards,
     },
   }),
 };
@@ -35,6 +34,24 @@ export default function NFTCard({
   index,
 }: NFTCardProps) {
   const shouldReduceMotion = useReducedMotion();
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+  // Disable 3D tilt on mobile for performance
+  const hoverAnimation = shouldReduceMotion
+    ? {}
+    : isMobile
+    ? {
+        y: MOTION.hover.card.y,
+        scale: MOTION.hover.card.scale,
+        transition: { duration: MOTION.hover.card.duration, ease: MOTION.easing.out },
+      }
+    : {
+        y: MOTION.hover.card.y,
+        scale: MOTION.hover.card.scale,
+        rotateY: MOTION.hover.card.rotateY,
+        rotateX: MOTION.hover.card.rotateX,
+        transition: { duration: MOTION.hover.card.duration, ease: MOTION.easing.out },
+      };
 
   return (
     <motion.div
@@ -42,17 +59,10 @@ export default function NFTCard({
       variants={cardVariants}
       initial={shouldReduceMotion ? 'visible' : 'hidden'}
       whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      whileHover={
-        shouldReduceMotion
-          ? {}
-          : {
-              y: -8,
-              scale: 1.02,
-              transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
-            }
-      }
+      viewport={{ once: MOTION.viewport.once, amount: MOTION.viewport.amount }}
+      whileHover={hoverAnimation}
       className="group relative w-full"
+      style={{ perspective: '1000px' }}
     >
       {/* Card container */}
       <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-gradient-to-br from-indigo-950/40 via-slate-950/60 to-violet-950/40 border border-indigo-500/20 backdrop-blur-sm">
