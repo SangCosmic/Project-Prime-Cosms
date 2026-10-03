@@ -61,14 +61,6 @@ export default function CosmicNFT() {
     offset: ['start end', 'end start'],
   });
 
-  // Subtle background parallax only
-  const enableParallax = !shouldReduceMotion && !isMobile;
-  const bgY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    enableParallax ? MOTION.parallax.nft.y : ['0%', '0%']
-  );
-
   // NFT entrance transition: opacity fade only
   const enableTransitions = !shouldReduceMotion && !isMobile;
   const sectionOpacity = useTransform(
@@ -77,18 +69,25 @@ export default function CosmicNFT() {
     enableTransitions ? MOTION.transitions.nftEnter.opacity : [1, 1]
   );
 
+  // NFT exit transition as Roadmap enters
+  const exitOpacity = useTransform(
+    scrollYProgress,
+    [0.7, 1],
+    enableTransitions ? MOTION.transitions.nftExit.opacity : [1, 1]
+  );
+
   return (
     <motion.section
       id="nft"
       ref={sectionRef}
       aria-label="Evolutionary NFTs and Play to Earn Gaming"
       className="relative min-h-screen w-full flex items-center overflow-hidden bg-[#04050f]"
+      style={{ opacity: exitOpacity }}
     >
-      {/* ── Background artwork with subtle parallax ── */}
+      {/* ── Background artwork ── */}
       <motion.div
         className="absolute inset-0 z-0 h-[110%] -top-[5%] w-full"
         style={{
-          y: bgY,
           opacity: sectionOpacity,
         }}
       >

@@ -106,6 +106,14 @@ export const MOTION = {
     nftEnter: {
       opacity: [0.2, 1] as [number, number],
     },
+    // NFT exit as Roadmap enters
+    nftExit: {
+      opacity: [1, 0.7] as [number, number],
+    },
+    // Roadmap entrance
+    roadmapEnter: {
+      opacity: [0.2, 1] as [number, number],
+    },
   },
 } as const;
 

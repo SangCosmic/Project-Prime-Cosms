@@ -96,6 +96,14 @@ export default function CosmicRoadmap() {
     enableParallax ? ['-1%', '1%'] : ['0%', '0%']
   );
 
+  // Roadmap entrance transition: faster, more visible start
+  const enableTransitions = !shouldReduceMotion && !isMobile;
+  const sectionOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.2],
+    enableTransitions ? [0.5, 1] : [1, 1]
+  );
+
   return (
     <motion.section
       id="roadmap"
@@ -106,13 +114,23 @@ export default function CosmicRoadmap() {
       {/* ── Background gradient atmosphere ── */}
       <motion.div
         className="absolute inset-0 z-0"
-        style={{ y: bgY }}
+        style={{ y: bgY, opacity: sectionOpacity }}
       >
         <div
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse at 30% 40%, rgba(75,0,130,0.15) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(25,25,112,0.12) 0%, transparent 50%), #04050f',
+              'radial-gradient(ellipse at 30% 40%, rgba(75,0,130,0.28) 0%, transparent 55%), radial-gradient(ellipse at 70% 60%, rgba(25,25,112,0.24) 0%, transparent 55%), #04050f',
+          }}
+        />
+
+        {/* Violet timeline glow */}
+        <div
+          aria-hidden="true"
+          className="absolute left-1/2 -translate-x-1/2 top-1/4 w-px h-1/2 opacity-40 blur-2xl"
+          style={{
+            background: 'linear-gradient(to bottom, transparent 0%, rgba(139,92,246,0.6) 20%, rgba(139,92,246,0.6) 80%, transparent 100%)',
+            width: '120px',
           }}
         />
       </motion.div>
@@ -132,20 +150,20 @@ export default function CosmicRoadmap() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: MOTION.viewport.once, amount: MOTION.viewport.amount }}
+          viewport={{ once: MOTION.viewport.once, amount: 0.15 }}
           variants={contentVariants}
-          className="max-w-4xl mx-auto"
+          className="max-w-5xl mx-auto"
         >
           {/* Section header */}
-          <motion.div variants={phaseVariants} className="mb-16 md:mb-20 text-center">
+          <motion.div variants={phaseVariants} className="mb-20 md:mb-24 text-center">
             <h2
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight"
+              className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-5 tracking-tight"
               style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}
             >
               Roadmap
             </h2>
             <p
-              className="text-white/60 text-sm md:text-base max-w-2xl mx-auto tracking-wide"
+              className="text-white/70 text-base md:text-lg max-w-2xl mx-auto tracking-wide leading-relaxed"
               style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}
             >
               Our journey from genesis to full-scale cosmic empire
@@ -157,11 +175,14 @@ export default function CosmicRoadmap() {
             {/* Vertical line */}
             <div
               aria-hidden="true"
-              className="absolute left-0 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-indigo-500/30 to-transparent"
+              className="absolute left-0 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px"
+              style={{
+                background: 'linear-gradient(to bottom, transparent 0%, rgba(139,92,246,0.5) 10%, rgba(99,102,241,0.4) 50%, rgba(139,92,246,0.5) 90%, transparent 100%)',
+              }}
             />
 
             {/* Phases */}
-            <div className="space-y-12 md:space-y-16">
+            <div className="space-y-16 md:space-y-20">
               {roadmapPhases.map((phase, index) => {
                 const isEven = index % 2 === 0;
                 return (
@@ -170,23 +191,26 @@ export default function CosmicRoadmap() {
                     variants={phaseVariants}
                     className={`relative flex flex-col md:flex-row ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-6 md:gap-12`}
                   >
-                    {/* Timeline dot */}
+                    {/* Timeline dot with enhanced glow */}
                     <div
-                      className="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-0 w-3 h-3 rounded-full bg-gradient-to-br from-orange-400 to-red-500 shadow-lg shadow-orange-500/50"
+                      className="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-1 flex items-center justify-center"
                       aria-hidden="true"
-                    />
+                    >
+                      <div className="absolute w-6 h-6 rounded-full bg-orange-500/20 blur-md" />
+                      <div className="relative w-4 h-4 rounded-full bg-gradient-to-br from-orange-400 via-orange-500 to-red-600 shadow-lg shadow-orange-500/60" />
+                    </div>
 
                     {/* Spacer for mobile */}
-                    <div className="md:hidden w-8" />
+                    <div className="md:hidden w-10" />
 
                     {/* Content card */}
                     <div className={`flex-1 ${isEven ? 'md:text-right md:pr-12' : 'md:pl-12'}`}>
                       <div className="inline-block">
                         <div
-                          className="inline-block px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-3"
+                          className="inline-block px-4 py-1.5 rounded-full bg-indigo-500/15 border border-indigo-400/30 mb-4 backdrop-blur-sm"
                         >
                           <span
-                            className="text-xs uppercase tracking-wider text-indigo-300"
+                            className="text-xs uppercase tracking-widest text-indigo-300 font-medium"
                             style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}
                           >
                             {phase.phase}
@@ -195,27 +219,27 @@ export default function CosmicRoadmap() {
                       </div>
 
                       <h3
-                        className="text-2xl md:text-3xl font-bold text-white mb-2"
+                        className="text-3xl md:text-4xl font-bold text-white mb-3"
                         style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}
                       >
                         {phase.title}
                       </h3>
 
                       <p
-                        className="text-orange-400/80 text-sm md:text-base mb-4 tracking-wide"
+                        className="text-orange-400 text-base md:text-lg mb-5 tracking-wide font-medium"
                         style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}
                       >
                         {phase.period}
                       </p>
 
                       <ul
-                        className={`space-y-2 text-white/70 text-sm md:text-base ${isEven ? 'md:ml-auto md:max-w-md' : 'md:max-w-md'}`}
+                        className={`space-y-2.5 text-white/75 text-sm md:text-base ${isEven ? 'md:ml-auto md:max-w-md' : 'md:max-w-md'}`}
                         style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}
                       >
                         {phase.items.map((item, i) => (
-                          <li key={i} className="flex items-start gap-2">
-                            <span className="text-orange-400 mt-1 flex-shrink-0">•</span>
-                            <span>{item}</span>
+                          <li key={i} className="flex items-start gap-3">
+                            <span className="text-orange-400 mt-1.5 flex-shrink-0 text-sm">◆</span>
+                            <span className="leading-relaxed">{item}</span>
                           </li>
                         ))}
                       </ul>
