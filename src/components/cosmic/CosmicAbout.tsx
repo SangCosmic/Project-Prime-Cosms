@@ -146,10 +146,10 @@ export default function CosmicAbout() {
               <motion.div
                 key={principle.title}
                 variants={itemVariants}
-                className="relative group"
+                className="relative group flex"
               >
                 {/* Card container */}
-                <div className="relative p-6 md:p-8 border border-white/10 bg-white/[0.02] backdrop-blur-sm transition-all duration-500 group-hover:border-violet-500/30 group-hover:bg-white/[0.04]">
+                <div className="relative p-6 md:p-8 border border-white/10 bg-white/[0.02] backdrop-blur-sm transition-all duration-500 group-hover:border-violet-500/30 group-hover:bg-white/[0.04] flex flex-col w-full">
                   {/* Top accent line */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/40 to-transparent" />
 
