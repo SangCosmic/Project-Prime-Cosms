@@ -35,22 +35,20 @@ export const MOTION = {
 
   /**
    * Parallax ranges by section
-   * Hero: slowest drift for stability
-   * Trading: baseline parallax
-   * NFT: slightly faster for depth variety
+   * Subtle background motion only, max 1% to avoid shake
    */
   parallax: {
     hero: {
-      y: ['0%', '1%'] as [string, string],
+      y: ['0%', '0.5%'] as [string, string],
       scale: [1.0, 1.0] as [number, number],
     },
     trading: {
-      y: ['-4%', '4%'] as [string, string],
-      scale: [1.02, 1.0, 1.03] as [number, number, number],
+      y: ['-1%', '1%'] as [string, string],
+      scale: [1.0, 1.0, 1.0] as [number, number, number],
     },
     nft: {
-      y: ['-4.8%', '4.8%'] as [string, string],
-      scale: [1.02, 1.0, 1.03] as [number, number, number],
+      y: ['-1.2%', '1.2%'] as [string, string],
+      scale: [1.0, 1.0, 1.0] as [number, number, number],
     },
   },
 
@@ -89,32 +87,24 @@ export const MOTION = {
 
   /**
    * Scene transition configuration
-   * Controls depth separation and crossfade between sections
+   * Opacity-only crossfades for stability
    */
   transitions: {
     // Hero exit as Trading enters
     heroExit: {
       opacity: [1, 0.7] as [number, number],
-      scale: [1, 0.98] as [number, number],
-      y: ['0%', '-5%'] as [string, string],
     },
     // Trading entrance
     tradingEnter: {
       opacity: [0.2, 1] as [number, number],
-      scale: [1.02, 1] as [number, number],
-      y: ['3%', '0%'] as [string, string],
     },
     // Trading exit as NFT enters
     tradingExit: {
       opacity: [1, 0.7] as [number, number],
-      scale: [1, 0.98] as [number, number],
-      y: ['0%', '-5%'] as [string, string],
     },
     // NFT entrance
     nftEnter: {
       opacity: [0.2, 1] as [number, number],
-      scale: [1.02, 1] as [number, number],
-      y: ['3%', '0%'] as [string, string],
     },
   },
 } as const;

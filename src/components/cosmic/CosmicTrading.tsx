@@ -39,47 +39,27 @@ export default function CosmicTrading() {
     offset: ['start end', 'end start'],
   });
 
-  // Parallax depth 1.0x (baseline)
+  // Subtle background parallax only
   const enableParallax = !shouldReduceMotion && !isMobile;
   const bgY = useTransform(
     scrollYProgress,
     [0, 1],
     enableParallax ? MOTION.parallax.trading.y : ['0%', '0%']
   );
-  const bgScale = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    enableParallax ? MOTION.parallax.trading.scale : [1, 1, 1]
-  );
 
-  // Trading entrance transition: fade in and scale as section enters
+  // Trading entrance transition: opacity fade only
   const enableTransitions = !shouldReduceMotion && !isMobile;
   const sectionOpacity = useTransform(
     scrollYProgress,
     [0, 0.3],
     enableTransitions ? MOTION.transitions.tradingEnter.opacity : [1, 1]
   );
-  const sectionScale = useTransform(
-    scrollYProgress,
-    [0, 0.3],
-    enableTransitions ? MOTION.transitions.tradingEnter.scale : [1, 1]
-  );
-  const sectionY = useTransform(
-    scrollYProgress,
-    [0, 0.3],
-    enableTransitions ? MOTION.transitions.tradingEnter.y : ['0%', '0%']
-  );
 
-  // Trading exit transition for next section
+  // Trading exit transition: opacity fade only
   const exitOpacity = useTransform(
     scrollYProgress,
     [0.7, 1],
     enableTransitions ? MOTION.transitions.tradingExit.opacity : [1, 1]
-  );
-  const exitScale = useTransform(
-    scrollYProgress,
-    [0.7, 1],
-    enableTransitions ? MOTION.transitions.tradingExit.scale : [1, 1]
   );
 
   return (
@@ -95,9 +75,7 @@ export default function CosmicTrading() {
         className="absolute inset-0 z-0 h-[110%] -top-[5%] w-full"
         style={{
           y: bgY,
-          scale: bgScale,
           opacity: sectionOpacity,
-          translateY: sectionY,
         }}
       >
         <Image

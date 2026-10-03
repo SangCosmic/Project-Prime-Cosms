@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import Image from 'next/image';
-import { motion, useReducedMotion, useTime, useTransform, useScroll } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { COSMIC_ASSETS } from '@/lib/assetManifest';
 import { MOTION } from '@/lib/motionConfig';
 import HeroContent from './HeroContent';
@@ -10,7 +10,6 @@ import HeroContent from './HeroContent';
 export default function CosmicHero() {
   const shouldReduceMotion = useReducedMotion();
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const time = useTime();
   const sectionRef = useRef<HTMLElement>(null);
 
   // Section-local scroll for exit transition
@@ -22,29 +21,20 @@ export default function CosmicHero() {
   // Initial zoom animation (1.06 → 1.0 over 8s)
   const initialScale = shouldReduceMotion ? 1 : 1.06;
 
-  // Continuous subtle drift after initial zoom (0 → 1% over 60s cycle)
-  const drift = useTransform(
-    time,
-    [0, 60000],
-    shouldReduceMotion ? MOTION.parallax.hero.y : ['0%', '1%']
+  // Subtle background parallax
+  const enableParallax = !shouldReduceMotion && !isMobile;
+  const bgY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    enableParallax ? MOTION.parallax.hero.y : ['0%', '0%']
   );
 
-  // Hero exit transition: fade out and pull back as user scrolls down
+  // Hero exit transition: opacity fade only
   const enableTransitions = !shouldReduceMotion && !isMobile;
   const heroOpacity = useTransform(
     scrollYProgress,
     [0, 0.5],
     enableTransitions ? MOTION.transitions.heroExit.opacity : [1, 1]
-  );
-  const heroScale = useTransform(
-    scrollYProgress,
-    [0, 0.5],
-    enableTransitions ? MOTION.transitions.heroExit.scale : [1, 1]
-  );
-  const heroY = useTransform(
-    scrollYProgress,
-    [0, 0.5],
-    enableTransitions ? MOTION.transitions.heroExit.y : ['0%', '0%']
   );
 
   return (
@@ -60,7 +50,7 @@ export default function CosmicHero() {
         initial={{ scale: initialScale }}
         animate={{ scale: 1 }}
         transition={{ duration: MOTION.duration.cinematic, ease: MOTION.easing.out }}
-        style={{ y: drift, scale: heroScale, translateY: heroY }}
+        style={{ y: bgY }}
       >
         <Image
           src={COSMIC_ASSETS.environment.heroBg}
