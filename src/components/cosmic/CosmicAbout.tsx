@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { MOTION } from '@/lib/motionConfig';
@@ -46,6 +46,11 @@ export default function CosmicAbout() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -53,7 +58,7 @@ export default function CosmicAbout() {
   });
 
   // Minimal background depth
-  const enableParallax = !shouldReduceMotion && !isMobile;
+  const enableParallax = !shouldReduceMotion && !isMobile && mounted;
   const bgY = useTransform(
     scrollYProgress,
     [0, 1],

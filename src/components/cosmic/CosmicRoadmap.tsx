@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { MOTION } from '@/lib/motionConfig';
@@ -82,6 +82,11 @@ export default function CosmicRoadmap() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -89,7 +94,7 @@ export default function CosmicRoadmap() {
   });
 
   // Subtle background parallax
-  const enableParallax = !shouldReduceMotion && !isMobile;
+  const enableParallax = !shouldReduceMotion && !isMobile && mounted;
   const bgY = useTransform(
     scrollYProgress,
     [0, 1],
@@ -97,7 +102,7 @@ export default function CosmicRoadmap() {
   );
 
   // Roadmap entrance transition: faster, more visible start
-  const enableTransitions = !shouldReduceMotion && !isMobile;
+  const enableTransitions = !shouldReduceMotion && !isMobile && mounted;
   const sectionOpacity = useTransform(
     scrollYProgress,
     [0, 0.2],

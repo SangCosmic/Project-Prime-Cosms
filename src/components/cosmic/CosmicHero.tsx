@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { COSMIC_ASSETS } from '@/lib/assetManifest';
@@ -11,6 +11,11 @@ export default function CosmicHero() {
   const shouldReduceMotion = useReducedMotion();
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const sectionRef = useRef<HTMLElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Section-local scroll for exit transition
   const { scrollYProgress } = useScroll({
@@ -22,7 +27,7 @@ export default function CosmicHero() {
   const initialScale = shouldReduceMotion ? 1 : 1.06;
 
   // Subtle background parallax
-  const enableParallax = !shouldReduceMotion && !isMobile;
+  const enableParallax = !shouldReduceMotion && !isMobile && mounted;
   const bgY = useTransform(
     scrollYProgress,
     [0, 1],
@@ -30,7 +35,7 @@ export default function CosmicHero() {
   );
 
   // Hero exit transition: opacity fade only
-  const enableTransitions = !shouldReduceMotion && !isMobile;
+  const enableTransitions = !shouldReduceMotion && !isMobile && mounted;
   const heroOpacity = useTransform(
     scrollYProgress,
     [0, 0.5],

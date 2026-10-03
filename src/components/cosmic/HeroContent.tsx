@@ -4,32 +4,30 @@ import { motion, useReducedMotion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { MOTION } from '@/lib/motionConfig';
 
+// Single variant set - blur controlled via CSS media query
 const eyebrowVariants: Variants = {
-  hidden: { opacity: 0, y: MOTION.reveal.small, filter: 'blur(4px)' },
+  hidden: { opacity: 0, y: MOTION.reveal.small },
   visible: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
     transition: { duration: 1.1, ease: MOTION.easing.out },
   },
 };
 
 const headlineVariants: Variants = {
-  hidden: { opacity: 0, y: MOTION.reveal.medium, filter: 'blur(4px)' },
+  hidden: { opacity: 0, y: MOTION.reveal.medium },
   visible: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
     transition: { duration: 1.3, ease: MOTION.easing.out, delay: 0.3 },
   },
 };
 
 const bodyVariants: Variants = {
-  hidden: { opacity: 0, y: MOTION.reveal.medium, filter: 'blur(4px)' },
+  hidden: { opacity: 0, y: MOTION.reveal.medium },
   visible: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
     transition: { duration: 1.1, ease: MOTION.easing.out, delay: 0.7 },
   },
 };
@@ -45,45 +43,16 @@ const ctaVariants: Variants = {
 
 export default function HeroContent() {
   const shouldReduceMotion = useReducedMotion();
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const initial = shouldReduceMotion ? 'visible' : 'hidden';
-
-  // Skip blur on mobile for performance
-  const eyebrowVariantsMobile: Variants = {
-    hidden: { opacity: 0, y: MOTION.reveal.small },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1.1, ease: MOTION.easing.out },
-    },
-  };
-
-  const headlineVariantsMobile: Variants = {
-    hidden: { opacity: 0, y: MOTION.reveal.medium },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1.3, ease: MOTION.easing.out, delay: 0.3 },
-    },
-  };
-
-  const bodyVariantsMobile: Variants = {
-    hidden: { opacity: 0, y: MOTION.reveal.medium },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1.1, ease: MOTION.easing.out, delay: 0.7 },
-    },
-  };
 
   return (
     <div className="relative z-20 flex flex-col items-center text-center px-4 sm:px-6 max-w-[920px] w-full mx-auto">
       {/* Eyebrow */}
       <motion.p
-        variants={isMobile ? eyebrowVariantsMobile : eyebrowVariants}
+        variants={eyebrowVariants}
         initial={initial}
         animate="visible"
-        className="text-[0.65rem] sm:text-xs tracking-[0.35em] text-white/50 uppercase mb-4 sm:mb-6 font-light"
+        className="text-[0.65rem] sm:text-xs tracking-[0.35em] text-white/50 uppercase mb-4 sm:mb-6 font-light hero-blur-text"
         style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}
       >
         Welcome to Cosmic
@@ -91,10 +60,10 @@ export default function HeroContent() {
 
       {/* Main headline: strictly 2 lines, no orphan 'A' */}
       <motion.h1
-        variants={isMobile ? headlineVariantsMobile : headlineVariants}
+        variants={headlineVariants}
         initial={initial}
         animate="visible"
-        className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[76px] xl:text-[88px] 2xl:text-[96px] uppercase leading-[0.95] tracking-[-0.025em] text-white mb-6 sm:mb-8 select-none"
+        className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[76px] xl:text-[88px] 2xl:text-[96px] uppercase leading-[0.95] tracking-[-0.025em] text-white mb-6 sm:mb-8 select-none hero-blur-text"
         style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}
       >
         <span className="block whitespace-nowrap">A METAVERSE</span>
@@ -105,10 +74,10 @@ export default function HeroContent() {
 
       {/* Supporting copy */}
       <motion.p
-        variants={isMobile ? bodyVariantsMobile : bodyVariants}
+        variants={bodyVariants}
         initial={initial}
         animate="visible"
-        className="text-xs sm:text-sm md:text-base text-white/55 max-w-sm sm:max-w-md lg:max-w-lg leading-relaxed mb-8 sm:mb-10 font-light"
+        className="text-xs sm:text-sm md:text-base text-white/55 max-w-sm sm:max-w-md lg:max-w-lg leading-relaxed mb-8 sm:mb-10 font-light hero-blur-text"
         style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}
       >
         Step into a boundless universe where medieval fantasy meets cosmic adventure.
@@ -126,7 +95,28 @@ export default function HeroContent() {
           <span className="block w-4 h-px bg-current transition-all duration-300 group-hover:w-6" />
         </a>
       </motion.div>
+
+      <style jsx>{`
+        /* Desktop only: blur reveal animation */
+        @media (min-width: 768px) {
+          .hero-blur-text {
+            filter: blur(4px);
+            animation: hero-blur-reveal 1.1s ease-out forwards;
+          }
+        }
+
+        /* Mobile: no blur */
+        @media (max-width: 767px) {
+          .hero-blur-text {
+            filter: none;
+          }
+        }
+
+        @keyframes hero-blur-reveal {
+          from { filter: blur(4px); }
+          to { filter: blur(0px); }
+        }
+      `}</style>
     </div>
   );
 }
-

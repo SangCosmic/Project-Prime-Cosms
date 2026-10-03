@@ -1,8 +1,8 @@
 # COSMIC Project State
 
-**Last Updated:** 2026-10-03 11:59 UTC  
+**Last Updated:** 2026-10-03 14:06 UTC  
 **Branch:** main  
-**Status:** Footer complete - Full page MVP ✅
+**Status:** Motion choreography refinement complete ✅
 
 ---
 
@@ -359,31 +359,39 @@ git push origin main          # Push to remote
 1. ✅ Created centralized motionConfig.ts
 2. ✅ Navbar entrance animation (0.5s delay)
 3. ✅ Hero continuous drift (60s cycle)
-4. ✅ Blur reveals on Hero text (desktop only)
+4. ✅ Blur reveals on Hero text (CSS media query, desktop only)
 5. ✅ Coordinated section parallax depths
-6. ✅ 3D card hover with rotation
-7. ✅ Mobile performance checks
-8. ✅ Reduced-motion compliance
-9. ✅ TypeScript validated (no errors)
-10. ✅ Production build successful
-11. ✅ Runtime verified on localhost:3000
-12. ⏳ Git commit pending
+6. ✅ 3D card hover with subtle rotation (1.5deg)
+7. ✅ **Cinematic scene transitions with depth separation**
+   - Hero exit: opacity 1→0.4, scale 1→0.98, y 0%→-5%
+   - Trading entrance: opacity 0→1, scale 1.02→1, y 3%→0%
+   - Trading exit: opacity 1→0.4, scale 1→0.98, y 0%→-5%
+   - NFT entrance: opacity 0→1, scale 1.02→1, y 3%→0%
+8. ✅ Mobile performance checks
+9. ✅ Reduced-motion compliance
+10. ✅ TypeScript validated (no errors)
+11. ✅ Production build successful
+12. ✅ Runtime verified on localhost:3000
+13. ⏳ Git commit pending
 
 **Dependencies:** None added. Pure Framer Motion implementation.
 
 **Ready to commit:**
 ```bash
 git add .
-git commit -m "feat: implement centralized cosmic motion system
+git commit -m "feat: add cinematic scene transitions
 
-- Add motion config with centralized timing/easing
-- Add navbar entrance animation
-- Add hero continuous drift (60s cycle)
-- Add desktop blur text reveals  
-- Add 3D card hover depth
-- Coordinate parallax depths (Hero 0.5x, Trading 1.0x, NFT 1.2x)
-- Add mobile performance checks
-- Maintain reduced-motion support"
+- Add scene transition config (heroExit, tradingEnter, tradingExit, nftEnter)
+- Hero exit: fade + scale down + translate up on scroll
+- Trading entrance: fade in + scale settle + translate from below
+- Trading exit transitions for NFT entrance
+- NFT entrance: fade in + scale settle + translate from below
+- Reduce card 3D rotation to 1.5deg for subtlety
+- Fix blur reveal: CSS media query instead of JS (no hydration mismatch)
+- Add transition guards for reduced-motion and mobile
+- Maintain normal browser scrolling
+
+Co-Authored-By: Claude Code <noreply@anthropic.com>"
 git push origin main
 ```
 

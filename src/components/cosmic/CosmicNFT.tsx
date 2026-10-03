@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
@@ -55,6 +55,11 @@ export default function CosmicNFT() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -62,7 +67,7 @@ export default function CosmicNFT() {
   });
 
   // NFT entrance transition: opacity fade only
-  const enableTransitions = !shouldReduceMotion && !isMobile;
+  const enableTransitions = !shouldReduceMotion && !isMobile && mounted;
   const sectionOpacity = useTransform(
     scrollYProgress,
     [0, 0.3],
