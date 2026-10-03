@@ -1,8 +1,8 @@
 # COSMIC Project State
 
-**Last Updated:** 2026-10-03 09:37 UTC  
+**Last Updated:** 2026-10-03 10:21 UTC  
 **Branch:** main  
-**Status:** Roadmap section complete ✅
+**Status:** About section complete ✅
 
 ---
 
@@ -115,48 +115,55 @@ All Phase 1 background + character assets complete:
 
 ## Current Task
 
-**Roadmap Section** ✅ COMPLETED
+**About Section** ✅ COMPLETED
 
 ### What Was Implemented
 
 **Visual Design:**
-- Dark navy/indigo/violet atmosphere with radial gradients
-- Vertical timeline with alternating left/right layout (desktop)
-- Mobile-first linear timeline (left-aligned)
-- Crimson/orange accent dots and period labels
-- Indigo phase badges
-- Atmospheric top/bottom blends for seamless section transitions
+- Restrained editorial approach (quieter than Hero)
+- Centered layout with max-w-4xl
+- Dark navy/indigo atmosphere (less intense than other sections)
+- Minimal background depth (±0.5% parallax)
+- Violet accent dots flanking eyebrow
+- Orange accent line on principle cards
 
 **Content Structure:**
-- 4 phases: Foundation, Ecosystem Expansion, Game Development, Full Launch
-- Q1 2027 → Q1 2028 timeline
-- Phase cards with title, period, and milestone items
-- Editorial typography (Cinzel + Inter)
+- Eyebrow: "ABOUT COSMIC"
+- Headline: "A World Beyond the Ordinary"
+- Body copy: Mission statement (2 sentences)
+- 3 principle cards: Explore, Build, Own
+- Each card with title + description
+
+**Typography:**
+- Cinzel headings (5xl→7xl responsive)
+- Inter body text
+- White/70 body, white/60 card descriptions
+- White/50 eyebrow (very subtle)
 
 **Motion:**
-- Subtle background parallax (±1%)
-- Viewport-triggered text reveals with stagger
-- Respects reduced-motion preference
-- No scroll hijacking
+- Minimal parallax (±0.5% vs ±1% other sections)
+- Viewport-triggered reveals with stagger
+- Card hover: subtle border + background brightening
+- Hover glow effect (radial gradient)
+- Respects reduced-motion
 
 **Files Created (1):**
-1. **src/components/cosmic/CosmicRoadmap.tsx** (268 lines)
-   - Section-local scroll parallax
-   - 4 roadmap phases with timeline structure
-   - Alternating desktop layout (even/odd phases)
-   - Mobile linear layout
+1. **src/components/cosmic/CosmicAbout.tsx** (184 lines)
+   - Section-local scroll with minimal parallax
+   - 3 principle cards in responsive grid
    - Viewport reveal animations
-   - Gradient atmosphere background
+   - Card hover interactions
+   - Atmospheric blend overlays
 
 **Files Modified (2):**
 1. **src/app/page.tsx** (+2 lines)
-   - Import CosmicRoadmap
-   - Add to main after NFT section
+   - Import CosmicAbout
+   - Add after Roadmap section
 
 2. **COSMIC_PROJECT_STATE.md** (updated)
 
 **Navbar Integration:**
-- Roadmap anchor (`#roadmap`) already present in navbar
+- About anchor (`#about`) already present in navbar
 - Functional scroll-to-section behavior
 
 ---
@@ -178,35 +185,42 @@ All Phase 1 background + character assets complete:
 3. **NFT** ✅
    - Character card grid
    - 3D hover effects (desktop)
-   - Background parallax
+   - Stable exit transition
    - Opacity entrance fade
 
 4. **Roadmap** ✅
    - Timeline structure
-   - Phase cards
-   - Alternating layout
+   - Phase cards with enhanced visibility
+   - Alternating desktop layout
+   - Violet timeline glow
    - Viewport reveals
+
+5. **About** ✅
+   - Restrained editorial design
+   - 3 principle cards
+   - Minimal motion
+   - Centered layout
 
 ---
 
 ## Next Task
 
-**Git Commit & About Section**
+**Git Commit & Footer**
 
-Commit Roadmap implementation:
+Commit About implementation:
 ```bash
 git add .
-git commit -m "feat: add roadmap section with timeline
+git commit -m "feat: add about section
 
-- Create CosmicRoadmap component with 4 phases
-- Vertical timeline with alternating desktop layout
-- Mobile linear timeline
-- Subtle parallax and viewport reveals
+- Create CosmicAbout component with editorial design
+- 3 principle cards: Explore, Build, Own
+- Minimal parallax and restrained motion
+- Centered layout with card grid
 - Integrate with main page and navbar anchor"
 git push origin main
 ```
 
-**Then:** About/Footer section or polish pass
+**Then:** Footer or final polish pass
 
 ---
 
