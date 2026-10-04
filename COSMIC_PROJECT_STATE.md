@@ -1,8 +1,8 @@
 # COSMIC Project State
 
-**Last Updated:** 2026-10-03 14:06 UTC  
+**Last Updated:** 2026-10-04 12:49 UTC  
 **Branch:** main  
-**Status:** Motion choreography refinement complete ✅
+**Status:** Trading video integration complete ✅
 
 ---
 
@@ -35,11 +35,16 @@
 
 3. **Trading** (`CosmicTrading.tsx`)
    - Section ID: `ecosystem`
-   - Background: `cosmic-trading-bg.png`
-   - Parallax: subtle scroll-driven y-offset + scale
+   - Background: layered video + static image
+   - **Video layer:** `COSMIC_trading_motion_loop.mp4` (4.75 MB)
+   - **Static fallback:** `cosmic-trading-bg.png`
+   - Video: autoplay, muted, loop, playsInline, desktop only
+   - Fallback conditions: mobile, reduced-motion, load failure
+   - Parallax: subtle scroll-driven y-offset
+   - Opacity crossfade (entrance/exit)
    - Left-aligned content: "EXTRAORDINARY TRADING STRATEGIES"
    - Crimson/orange ambient glow overlay
-   - 181 lines
+   - 218 lines
 
 4. **NFT Collection** (`CosmicNFT.tsx` + `NFTCard.tsx`) ✅ NEW
    - Section ID: `nft`

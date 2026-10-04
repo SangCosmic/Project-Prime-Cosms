@@ -32,11 +32,18 @@ const itemVariants: Variants = {
 export default function CosmicTrading() {
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const [mounted, setMounted] = useState(false);
+  const [shouldUseVideo, setShouldUseVideo] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+
+    // Video policy: >= 1024px only, respect Save-Data
+    const isLargeViewport = window.innerWidth >= 1024;
+    const hasSaveData = 'connection' in navigator &&
+      (navigator as any).connection?.saveData === true;
+
+    setShouldUseVideo(isLargeViewport && !hasSaveData);
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -44,8 +51,8 @@ export default function CosmicTrading() {
     offset: ['start end', 'end start'],
   });
 
-  // Subtle background parallax only
-  const enableParallax = !shouldReduceMotion && !isMobile && mounted;
+  // Subtle background parallax only on large viewports
+  const enableParallax = !shouldReduceMotion && shouldUseVideo && mounted;
   const bgY = useTransform(
     scrollYProgress,
     [0, 1],
@@ -53,7 +60,7 @@ export default function CosmicTrading() {
   );
 
   // Trading entrance transition: opacity fade only
-  const enableTransitions = !shouldReduceMotion && !isMobile && mounted;
+  const enableTransitions = !shouldReduceMotion && shouldUseVideo && mounted;
   const sectionOpacity = useTransform(
     scrollYProgress,
     [0, 0.3],
@@ -83,6 +90,7 @@ export default function CosmicTrading() {
           opacity: sectionOpacity,
         }}
       >
+        {/* Static fallback image - always present */}
         <Image
           src={COSMIC_ASSETS.environment.tradingBg}
           alt="Cosmic trading energy artifact — glowing red and orange celestial reactor"
@@ -91,6 +99,20 @@ export default function CosmicTrading() {
           className="object-cover object-right md:object-[65%_center] lg:object-right"
           sizes="100vw"
         />
+
+        {/* Video layer - >= 1024px only, respects reduced motion and Save-Data */}
+        {!shouldReduceMotion && shouldUseVideo && mounted && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover object-right md:object-[65%_center] lg:object-right pointer-events-none"
+            style={{ opacity: 0.85 }}
+          >
+            <source src="/cosmic/video/COSMIC_trading_motion_loop.mp4" type="video/mp4" />
+          </video>
+        )}
       </motion.div>
 
       {/* ── Atmospheric transition overlays ── */}
@@ -142,7 +164,7 @@ export default function CosmicTrading() {
           initial={shouldReduceMotion ? 'visible' : 'hidden'}
           whileInView="visible"
           viewport={{ once: MOTION.viewport.once, amount: MOTION.viewport.amount }}
-          className="max-w-xl lg:max-w-2xl text-left flex flex-col items-start"
+          className="max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl text-left flex flex-col items-start"
         >
           {/* Eyebrow */}
           <motion.div
@@ -161,7 +183,7 @@ export default function CosmicTrading() {
           {/* Headline: High-contrast editorial serif, 2 deliberate lines */}
           <motion.h2
             variants={itemVariants}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-[62px] xl:text-[70px] font-normal uppercase leading-[0.94] tracking-[0.02em] text-white mb-4 sm:mb-5 select-none"
+            className="text-3xl sm:text-4xl md:text-[44px] lg:text-[52px] xl:text-[62px] 2xl:text-[70px] font-normal uppercase leading-[0.94] tracking-[0.02em] text-white mb-4 sm:mb-5 select-none"
             style={{
               fontFamily:
                 "'Cormorant Garamond', 'Cinzel', 'Didot', 'Bodoni MT', 'Times New Roman', Georgia, serif",
