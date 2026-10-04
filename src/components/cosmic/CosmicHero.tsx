@@ -61,7 +61,6 @@ export default function CosmicHero() {
           src={COSMIC_ASSETS.environment.heroBg}
           alt="Cosmic medieval landscape — dragon, castle, moon and starlit valley"
           fill
-          priority
           quality={90}
           className="object-cover object-center"
           sizes="100vw"
