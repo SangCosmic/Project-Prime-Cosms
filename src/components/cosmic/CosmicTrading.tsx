@@ -84,7 +84,7 @@ export default function CosmicTrading() {
     >
       {/* ── Background artwork with subtle parallax ── */}
       <motion.div
-        className="absolute inset-0 z-0 h-[110%] -top-[5%] w-full"
+        className="absolute inset-0 z-0 h-[110%] top-[-5%] w-full"
         style={{
           y: bgY,
           opacity: sectionOpacity,
@@ -209,7 +209,7 @@ export default function CosmicTrading() {
           <motion.div variants={itemVariants}>
             <a
               href="#ecosystem"
-              className="group inline-flex items-center gap-2.5 border border-white/20 bg-white/[0.02] hover:bg-white/[0.06] hover:border-orange-500/50 text-white/75 hover:text-white text-[9px] sm:text-[10px] tracking-[0.28em] uppercase px-5 py-2.5 sm:px-6 sm:py-3 transition-all duration-300"
+              className="group inline-flex items-center gap-2.5 border border-white/20 bg-white/2 hover:bg-white/6 hover:border-orange-500/50 text-white/75 hover:text-white text-[9px] sm:text-[10px] tracking-[0.28em] uppercase px-5 py-2.5 sm:px-6 sm:py-3 transition-all duration-300"
               style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}
             >
               Discover the Economy

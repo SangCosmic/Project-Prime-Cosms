@@ -46,7 +46,7 @@ export default function HeroContent() {
   const initial = shouldReduceMotion ? 'visible' : 'hidden';
 
   return (
-    <div className="relative z-20 flex flex-col items-center text-center px-4 sm:px-6 max-w-[920px] w-full mx-auto">
+    <div className="relative z-20 flex flex-col items-center text-center px-4 sm:px-6 max-w-230 w-full mx-auto">
       {/* Eyebrow */}
       <motion.p
         variants={eyebrowVariants}
@@ -63,7 +63,7 @@ export default function HeroContent() {
         variants={headlineVariants}
         initial={initial}
         animate="visible"
-        className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[76px] xl:text-[88px] 2xl:text-[96px] uppercase leading-[0.95] tracking-[-0.025em] text-white mb-6 sm:mb-8 select-none hero-blur-text"
+        className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[76px] xl:text-[88px] 2xl:text-[96px] uppercase leading-[0.95] tracking-tight text-white mb-6 sm:mb-8 select-none hero-blur-text"
         style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}
       >
         <span className="block whitespace-nowrap">A METAVERSE</span>
@@ -88,7 +88,7 @@ export default function HeroContent() {
       <motion.div variants={ctaVariants} initial={initial} animate="visible">
         <a
           href="#world"
-          className="group inline-flex items-center gap-3 border border-white/20 bg-white/[0.03] hover:bg-white/[0.08] text-white/80 hover:text-white hover:border-white/40 text-[0.7rem] sm:text-xs tracking-[0.28em] uppercase px-7 py-3.5 sm:px-8 sm:py-4 transition-all duration-300"
+          className="group inline-flex items-center gap-3 border border-white/20 bg-white/3 hover:bg-white/8 text-white/80 hover:text-white hover:border-white/40 text-[0.7rem] sm:text-xs tracking-[0.28em] uppercase px-7 py-3.5 sm:px-8 sm:py-4 transition-all duration-300"
           style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}
         >
           Explore the World
