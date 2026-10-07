@@ -1,0 +1,195 @@
+- generic [active] [ref=f3e1]:
+  - navigation "Main navigation" [ref=f3e2]:
+    - generic [ref=f3e3]:
+      - link "COSMIC" [ref=f3e4] [cursor=pointer]:
+        - /url: /
+      - button "Open menu" [ref=f3e5]
+  - main [ref=f3e9]:
+    - region "Hero" [ref=f3e10]:
+      - img "Cosmic medieval landscape — dragon, castle, moon and starlit valley" [ref=f3e12]
+      - generic [ref=f3e14]:
+        - paragraph [ref=f3e15]: Welcome to Cosmic
+        - heading "A METAVERSE MEDIEVAL GAME" [level=1] [ref=f3e16]:
+          - generic [ref=f3e17]: A METAVERSE
+          - generic [ref=f3e18]: MEDIEVAL GAME
+        - paragraph [ref=f3e19]: Step into a boundless universe where medieval fantasy meets cosmic adventure. Build, explore, and own your destiny.
+        - link "Explore the World" [ref=f3e21] [cursor=pointer]:
+          - /url: "#world"
+    - region "Extraordinary Trading Strategies" [ref=f3e23]:
+      - img "Cosmic trading energy artifact — glowing red and orange celestial reactor" [ref=f3e25]
+      - generic [ref=f3e27]:
+        - paragraph [ref=f3e30]: COSMIC ECOSYSTEM
+        - heading "EXTRAORDINARY TRADING STRATEGIES" [level=2] [ref=f3e31]:
+          - generic [ref=f3e32]: EXTRAORDINARY
+          - generic [ref=f3e33]: TRADING STRATEGIES
+        - paragraph [ref=f3e34]: A world where strategy, timing, and opportunity shape your journey through the COSMIC universe.
+        - link "Discover the Economy" [ref=f3e36] [cursor=pointer]:
+          - /url: "#ecosystem"
+    - region "Evolutionary NFTs and Play to Earn Gaming" [ref=f3e38]:
+      - img "Cosmic NFT realm — deep blue mystical environment with magenta energy" [ref=f3e40]
+      - generic [ref=f3e42]:
+        - generic [ref=f3e43]:
+          - paragraph [ref=f3e46]: COSMIC COLLECTION
+          - heading "EVOLUTIONARY NFTs & LUCRATIVE PLAY 2 EARN GAMING" [level=2] [ref=f3e47]:
+            - generic [ref=f3e48]: EVOLUTIONARY
+            - generic [ref=f3e49]: NFTs & LUCRATIVE
+            - generic [ref=f3e50]: PLAY 2 EARN
+            - generic [ref=f3e51]: GAMING
+          - paragraph [ref=f3e52]: Forge your legend with collectible characters that evolve through your gameplay. Own, trade, and earn in a living metaverse economy.
+          - link "Explore Collection" [ref=f3e54] [cursor=pointer]:
+            - /url: "#nft"
+        - generic [ref=f3e57]:
+          - generic [ref=f3e59]:
+            - img "Void Knight — Warrior character" [ref=f3e62]
+            - generic [ref=f3e63]:
+              - generic [ref=f3e64]: Legendary
+              - heading "Void Knight" [level=3] [ref=f3e67]
+              - paragraph [ref=f3e68]: Warrior
+          - generic [ref=f3e70]:
+            - img "Arcane Ranger — Hunter character" [ref=f3e73]
+            - generic [ref=f3e74]:
+              - generic [ref=f3e75]: Epic
+              - heading "Arcane Ranger" [level=3] [ref=f3e78]
+              - paragraph [ref=f3e79]: Hunter
+          - generic [ref=f3e81]:
+            - img "Astral Oracle — Mystic character" [ref=f3e84]
+            - generic [ref=f3e85]:
+              - generic [ref=f3e86]: Mythic
+              - heading "Astral Oracle" [level=3] [ref=f3e89]
+              - paragraph [ref=f3e90]: Mystic
+    - region "COSMIC Roadmap" [ref=f3e91]:
+      - generic [ref=f3e96]:
+        - generic [ref=f3e97]:
+          - heading "Roadmap" [level=2] [ref=f3e98]
+          - paragraph [ref=f3e99]: Our journey from genesis to full-scale cosmic empire
+        - generic [ref=f3e102]:
+          - generic [ref=f3e107]:
+            - generic [ref=f3e108]: Phase 1
+            - heading "Foundation" [level=3] [ref=f3e110]
+            - paragraph [ref=f3e111]: Q1 2027
+            - list [ref=f3e112]:
+              - listitem [ref=f3e113]:
+                - generic [ref=f3e114]: ◆
+                - generic [ref=f3e115]: Launch COSMIC token
+              - listitem [ref=f3e116]:
+                - generic [ref=f3e117]: ◆
+                - generic [ref=f3e118]: Deploy core smart contracts
+              - listitem [ref=f3e119]:
+                - generic [ref=f3e120]: ◆
+                - generic [ref=f3e121]: Establish community channels
+              - listitem [ref=f3e122]:
+                - generic [ref=f3e123]: ◆
+                - generic [ref=f3e124]: Release whitepaper v2.0
+          - generic [ref=f3e129]:
+            - generic [ref=f3e130]: Phase 2
+            - heading "Ecosystem Expansion" [level=3] [ref=f3e132]
+            - paragraph [ref=f3e133]: Q2 2027
+            - list [ref=f3e134]:
+              - listitem [ref=f3e135]:
+                - generic [ref=f3e136]: ◆
+                - generic [ref=f3e137]: NFT marketplace launch
+              - listitem [ref=f3e138]:
+                - generic [ref=f3e139]: ◆
+                - generic [ref=f3e140]: Character minting begins
+              - listitem [ref=f3e141]:
+                - generic [ref=f3e142]: ◆
+                - generic [ref=f3e143]: Trading platform beta
+              - listitem [ref=f3e144]:
+                - generic [ref=f3e145]: ◆
+                - generic [ref=f3e146]: First strategic partnerships
+          - generic [ref=f3e151]:
+            - generic [ref=f3e152]: Phase 3
+            - heading "Game Development" [level=3] [ref=f3e154]
+            - paragraph [ref=f3e155]: Q3-Q4 2027
+            - list [ref=f3e156]:
+              - listitem [ref=f3e157]:
+                - generic [ref=f3e158]: ◆
+                - generic [ref=f3e159]: Alpha gameplay preview
+              - listitem [ref=f3e160]:
+                - generic [ref=f3e161]: ◆
+                - generic [ref=f3e162]: Character evolution system
+              - listitem [ref=f3e163]:
+                - generic [ref=f3e164]: ◆
+                - generic [ref=f3e165]: PvE combat mechanics
+              - listitem [ref=f3e166]:
+                - generic [ref=f3e167]: ◆
+                - generic [ref=f3e168]: Land ownership framework
+          - generic [ref=f3e173]:
+            - generic [ref=f3e174]: Phase 4
+            - heading "Full Launch" [level=3] [ref=f3e176]
+            - paragraph [ref=f3e177]: Q1 2028
+            - list [ref=f3e178]:
+              - listitem [ref=f3e179]:
+                - generic [ref=f3e180]: ◆
+                - generic [ref=f3e181]: Public game release
+              - listitem [ref=f3e182]:
+                - generic [ref=f3e183]: ◆
+                - generic [ref=f3e184]: Guild system activation
+              - listitem [ref=f3e185]:
+                - generic [ref=f3e186]: ◆
+                - generic [ref=f3e187]: Cross-chain integration
+              - listitem [ref=f3e188]:
+                - generic [ref=f3e189]: ◆
+                - generic [ref=f3e190]: Governance DAO launch
+    - region "About COSMIC" [ref=f3e191]:
+      - generic [ref=f3e195]:
+        - paragraph [ref=f3e198]: ABOUT COSMIC
+        - heading "A World Beyond the Ordinary" [level=2] [ref=f3e200]: A World Beyondthe Ordinary
+        - paragraph [ref=f3e201]: COSMIC is a living universe where medieval fantasy, cosmic exploration, strategy, and digital ownership converge. Built for those who seek more than a game—an empire to forge, a legacy to claim.
+        - generic [ref=f3e202]:
+          - generic [ref=f3e204]:
+            - heading "Explore" [level=3] [ref=f3e206]
+            - paragraph [ref=f3e207]: Traverse a vast cosmic realm where medieval kingdoms meet distant stars
+          - generic [ref=f3e209]:
+            - heading "Build" [level=3] [ref=f3e211]
+            - paragraph [ref=f3e212]: Forge alliances, develop territories, and shape the empire's destiny
+          - generic [ref=f3e214]:
+            - heading "Own" [level=3] [ref=f3e216]
+            - paragraph [ref=f3e217]: True digital ownership of characters, land, and artifacts you create
+  - contentinfo [ref=f3e218]:
+    - generic [ref=f3e220]:
+      - generic [ref=f3e221]:
+        - generic [ref=f3e222]:
+          - heading "COSMIC" [level=2] [ref=f3e223]
+          - paragraph [ref=f3e224]: Where medieval fantasy and cosmic strategy converge into a living universe of digital ownership and endless exploration.
+        - generic [ref=f3e225]:
+          - generic [ref=f3e226]:
+            - heading "Explore" [level=3] [ref=f3e227]
+            - list [ref=f3e228]:
+              - listitem [ref=f3e229]:
+                - link "World" [ref=f3e230] [cursor=pointer]:
+                  - /url: "#world"
+              - listitem [ref=f3e231]:
+                - link "Ecosystem" [ref=f3e232] [cursor=pointer]:
+                  - /url: "#ecosystem"
+              - listitem [ref=f3e233]:
+                - link "NFTs" [ref=f3e234] [cursor=pointer]:
+                  - /url: "#nft"
+              - listitem [ref=f3e235]:
+                - link "Roadmap" [ref=f3e236] [cursor=pointer]:
+                  - /url: "#roadmap"
+          - generic [ref=f3e237]:
+            - heading "Connect" [level=3] [ref=f3e238]
+            - list [ref=f3e239]:
+              - listitem [ref=f3e240]:
+                - link "Twitter" [ref=f3e241] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=f3e242]:
+                - link "Discord" [ref=f3e243] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=f3e244]:
+                - link "Telegram" [ref=f3e245] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=f3e246]:
+                - link "Medium" [ref=f3e247] [cursor=pointer]:
+                  - /url: "#"
+          - button "Scroll to top" [ref=f3e249]:
+            - generic [ref=f3e250]: Back to Top
+      - generic [ref=f3e254]:
+        - paragraph [ref=f3e255]: © 2026 COSMIC. All rights reserved.
+        - generic [ref=f3e256]:
+          - link "Privacy Policy" [ref=f3e257] [cursor=pointer]:
+            - /url: "#"
+          - link "Terms of Service" [ref=f3e258] [cursor=pointer]:
+            - /url: "#"
+  - button "Open Next.js Dev Tools" [ref=f3e264] [cursor=pointer]

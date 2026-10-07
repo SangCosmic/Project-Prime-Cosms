@@ -31,6 +31,7 @@ const itemVariants: Variants = {
 
 export default function CosmicTrading() {
   const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   const [shouldUseVideo, setShouldUseVideo] = useState(false);
@@ -48,30 +49,47 @@ export default function CosmicTrading() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ['start end', 'end start'],
+    offset: ['start start', 'end start'],
   });
+
+  useEffect(() => {
+    if (!videoRef.current || !shouldUseVideo || shouldReduceMotion) return;
+
+    const video = videoRef.current;
+
+    const unsubscribe = scrollYProgress.on('change', (progress) => {
+      if (video.readyState >= 2 && !isNaN(video.duration)) {
+        const targetTime = progress * video.duration;
+        if (Math.abs(video.currentTime - targetTime) > 0.01) {
+          video.currentTime = targetTime;
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, [scrollYProgress, shouldUseVideo, shouldReduceMotion]);
 
   // Subtle background parallax only on large viewports
   const enableParallax = !shouldReduceMotion && shouldUseVideo && mounted;
   const bgY = useTransform(
     scrollYProgress,
     [0, 1],
-    enableParallax ? MOTION.parallax.trading.y : ['0%', '0%']
+    enableParallax ? ['-0.5%', '0.5%'] : ['0%', '0%']
   );
 
   // Trading entrance transition: opacity fade only
   const enableTransitions = !shouldReduceMotion && shouldUseVideo && mounted;
   const sectionOpacity = useTransform(
     scrollYProgress,
-    [0, 0.3],
-    enableTransitions ? MOTION.transitions.tradingEnter.opacity : [1, 1]
+    [0, 0.15],
+    enableTransitions ? [0.3, 1] : [1, 1]
   );
 
   // Trading exit transition: opacity fade only
   const exitOpacity = useTransform(
     scrollYProgress,
-    [0.7, 1],
-    enableTransitions ? MOTION.transitions.tradingExit.opacity : [1, 1]
+    [0.85, 1],
+    enableTransitions ? [1, 0.8] : [1, 1]
   );
 
   return (
@@ -103,10 +121,10 @@ export default function CosmicTrading() {
         {/* Video layer - >= 1024px only, respects reduced motion and Save-Data */}
         {!shouldReduceMotion && shouldUseVideo && mounted && (
           <video
-            autoPlay
+            ref={videoRef}
             muted
-            loop
             playsInline
+            preload="auto"
             className="absolute inset-0 w-full h-full object-cover object-right md:object-[65%_center] lg:object-right pointer-events-none"
             style={{ opacity: 0.85 }}
           >
